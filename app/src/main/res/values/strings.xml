@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">SecretSites</string>
-    <string name="serverIP2">http://192.168.1.133:8080/</string>
-    <string name="serverIP">http://10.83.32.224:8080/</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -1,0 +1,88 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/pointNameEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="London"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp" />
+
+    <TextView
+        android:id="@+id/createdBy"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:text="Created by:"
+        android:textSize="15dp"
+        android:textStyle="italic"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/pointNameEdit"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp" />
+    <TextView
+        android:id="@+id/createUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manolito"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_below="@id/pointNameEdit"
+        android:layout_toEndOf="@id/createdBy"
+        android:layout_toRightOf="@id/createdBy"
+        android:layout_marginTop="7dp" />
+
+    <TextView
+        android:id="@+id/lastModified"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:text="Last modified:"
+        android:textSize="15dp"
+        android:textStyle="italic"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/createdBy"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp" />
+    <TextView
+        android:id="@+id/dateComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="24/03/27 12:23:45"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_below="@id/createdBy"
+        android:layout_toEndOf="@id/lastModified"
+        android:layout_toRightOf="@id/lastModified"
+        android:layout_marginTop="7dp" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="7dp"
+        android:src="@mipmap/edit_item_icon"
+        android:tint="?attr/colorPrimary" />
+
+    <EditText
+        android:id="@+id/commentTextEdit"
+        android:inputType="textMultiLine"
+        android:layout_width="800dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lastModified"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="10dp"
+        android:hint="Edit the comment.." />
+
+</RelativeLayout>

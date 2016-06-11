@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/imageViewPhoto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@android:color/white" />
+
+    <ProgressBar
+        android:id="@+id/progressBarPhotos"
+        android:layout_width="96dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="12dp"
+        style="@android:style/Widget.ProgressBar.Horizontal" />
+
+        <TextView
+            android:id="@+id/textViewUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/imageViewPhoto"
+            android:layout_toRightOf="@id/imageViewPhoto"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="Barney"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewDataTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewUsername"
+            android:layout_toEndOf="@id/imageViewPhoto"
+            android:layout_toRightOf="@id/imageViewPhoto"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="28/03/2016 01:32:14" />
+
+        <TextView
+            android:id="@+id/textTotalRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewDataTime"
+            android:layout_toEndOf="@id/imageViewPhoto"
+            android:layout_toRightOf="@id/imageViewPhoto"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="Total rate: "
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/textViewRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewDataTime"
+            android:layout_toEndOf="@id/textTotalRate"
+            android:layout_toRightOf="@id/textTotalRate"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="2dp"
+            android:text="4.5☆"
+            android:textStyle="bold"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="-15dp"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:layout_toEndOf="@+id/imageViewPhoto"
+            android:layout_toRightOf="@+id/imageViewPhoto"
+            android:layout_below="@+id/textTotalRate" />
+        <TextView
+            android:id="@+id/textViewMyRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textTotalRate"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="10dp"
+            android:text="4.5"
+            android:textStyle="italic"/>
+
+</RelativeLayout>

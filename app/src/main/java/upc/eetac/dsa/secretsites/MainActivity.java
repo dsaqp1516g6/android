@@ -37,6 +37,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.security.acl.Group;
 import java.util.HashMap;
@@ -86,12 +87,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                /*((TextView) navigationView.getHeaderView(R.layout.nav_header_main).findViewById(R.id.userName)).setText("Unknow");
-                ((TextView) drawerView.findViewById(R.id.fullnameDrawer)).setText("Unknow");
-                ((TextView) drawerView.findViewById(R.id.emailDrawer)).setText("Unknow@unknow.com");*/
             }
-
-
         };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -277,7 +273,7 @@ public class MainActivity extends AppCompatActivity
                 auth.setUserid(user.getId());
                 changeDrawerLayout(user);
             }
-            else if(result.contains(getString(R.string.unauthorized))) {    //Acces to root with a unaothorized TOKEN (So no TOKEN)
+            else if(result.contains(getString(R.string.unauthorized))) {    //Acces to root with a unauthorized TOKEN (So no TOKEN)
                 Toast.makeText(MainActivity.this, result,
                         Toast.LENGTH_SHORT).show();
                 saveDataStorage("token", null);
@@ -342,7 +338,10 @@ public class MainActivity extends AppCompatActivity
                 String url = SecretSitesClient.getLink(point.getLinks(), "self-point").getUri().toString();
                 Intent i = new Intent(MainActivity.this, DetailActivity.class);
                 i.putExtra("pointName", point.getName());
-                i.putExtra("photoId", point.getBestPhoto().getId());
+                if(point.getBestPhoto() != null)
+                    i.putExtra("photoId", point.getBestPhoto().getId());
+                else
+                    i.putExtra("photoId", "noBest");
                 i.putExtra("urlPoint", url);
                 startActivity(i);
             }
@@ -375,22 +374,20 @@ public class MainActivity extends AppCompatActivity
                 return client.getInterestPoints(this.searchName);
             }
             catch (SecretSitesClientException ex) {
-                Toast.makeText(MainActivity.this, ex.getReason(),
-                        Toast.LENGTH_SHORT).show();
-                return null;
+                return ex.getReason();
             }
         }
 
         @Override
         protected void onPostExecute(final String response) {
-
-            if(response != null) {
+            try{
                 InterestPointCollection pointsCollection = new Gson().fromJson(response, InterestPointCollection.class);
                 putMarkers(pointsCollection);
             }
+            catch (JsonSyntaxException ex) {
+                Toast.makeText(MainActivity.this, response,
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
-
-
-
 }

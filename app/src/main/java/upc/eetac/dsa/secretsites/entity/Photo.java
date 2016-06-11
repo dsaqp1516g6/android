@@ -11,8 +11,10 @@ public class Photo {
     private String id;
     private String pointid;
     private String userid;
+    private String username;
     private String url;
-    private float rating; //TODO this okey too?
+    private float myRating;
+    private float totalRating;
     private long uploadTimestamp;
 
     public List<Link> getLinks() {
@@ -47,6 +49,14 @@ public class Photo {
         this.userid = userid;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -55,12 +65,20 @@ public class Photo {
         this.url = url;
     }
 
-    public float getRating() {
-        return rating;
+    public float getMyRating() {
+        return myRating;
     }
 
-    public void setRating(float rating) {
-        this.rating = rating;
+    public void setMyRating(float myRating) {
+        this.myRating = myRating;
+    }
+
+    public float getTotalRating() {
+        return totalRating;
+    }
+
+    public void setTotalRating(float totalRating) {
+        this.totalRating = totalRating;
     }
 
     public long getUploadTimestamp() {

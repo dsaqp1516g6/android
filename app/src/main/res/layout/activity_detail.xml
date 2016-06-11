@@ -53,6 +53,7 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager android:id="@+id/container"
@@ -72,5 +73,39 @@
         -->
 
     </android.support.v4.view.ViewPager>
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/deleteComment"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="@dimen/fab_margin_botton"
+        android:layout_marginLeft="100dp"
+        android:src="@mipmap/delete_item_icon"
+        android:visibility="gone"
+        app:backgroundTint="?attr/colorPrimary" />
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/deletePhoto"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/fab_margin_botton"
+        android:src="@mipmap/delete_item_icon"
+        android:visibility="gone"
+        app:backgroundTint="?attr/colorPrimary" />
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/editItem"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/fab_margin_botton"
+        android:layout_marginRight="@dimen/fab_margin_left"
+        android:src="@mipmap/edit_item_icon"
+        android:visibility="gone"
+        app:backgroundTint="?attr/colorPrimary" />
+
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/addItem"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin_botton"
+        android:src="@mipmap/add_comment_icon"
+        app:backgroundTint="?attr/colorPrimary" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import upc.eetac.dsa.secretsites.MainActivity;
 import upc.eetac.dsa.secretsites.R;
 import upc.eetac.dsa.secretsites.entity.AuthToken;
+import upc.eetac.dsa.secretsites.entity.Comment;
 import upc.eetac.dsa.secretsites.entity.Link;
 import upc.eetac.dsa.secretsites.entity.Root;
 import upc.eetac.dsa.secretsites.entity.User;
@@ -36,8 +37,8 @@ import upc.eetac.dsa.secretsites.entity.User;
  * Created by Marti on 11/05/2016.
  */
 public class SecretSitesClient {
-    //private final static String BASE_URI = "http://192.168.1.133:8080/secretsites";
-    private final static String BASE_URI = "http://10.83.32.224:8080/secretsites";
+    //private final static String BASE_URI = "http://192.168.1.136:8080/secretsites";
+    private final static String BASE_URI = "http://10.83.45.133:8080/secretsites";
     private static SecretSitesClient instance;
     private Root root;
     private ClientConfig clientConfig = null;
@@ -51,6 +52,7 @@ public class SecretSitesClient {
 
     private SecretSitesClient() {
         clientConfig = new ClientConfig();
+        clientConfig.register(GsonMessageBodyHandler.class);
         client = ClientBuilder.newClient(clientConfig);
     }
 
@@ -84,15 +86,15 @@ public class SecretSitesClient {
                 return getUser(getLink(this.root.getLinks(), "user-profile").getUri().toString());
             }
             else if(response.getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
-                if(loadRoot()) throw new SecretSitesClientException(Resources.getSystem().getString(R.string.authorized));
-                else throw new SecretSitesClientException(Resources.getSystem().getString(R.string.server_error));
+                if(loadRoot()) throw new SecretSitesClientException(SecretSitesResources.authorized);
+                else throw new SecretSitesClientException(SecretSitesResources.server_error);
             }
         } catch (ProcessingException ex) {
             ex.printStackTrace();
-            throw new SecretSitesClientException(Resources.getSystem().getString(R.string.server_error));
+            throw new SecretSitesClientException(SecretSitesResources.server_error);
         }
         this.instance = null;
-        throw new SecretSitesClientException(Resources.getSystem().getString(R.string.unexpected_error));
+        throw new SecretSitesClientException(SecretSitesResources.unexpected_error);
     }
 
     public final static Link getLink(List<Link> links, String rel) {
@@ -117,7 +119,7 @@ public class SecretSitesClient {
         else if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
         }
-        throw new SecretSitesClientException(Resources.getSystem().getString(R.string.unexpected_error));
+        throw new SecretSitesClientException(SecretSitesResources.unexpected_error);
     }
 
     public String register(String userid, String password, String email, String fullname) throws SecretSitesClientException {
@@ -138,7 +140,7 @@ public class SecretSitesClient {
         else if(response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
         }
-        throw new SecretSitesClientException(Resources.getSystem().getString(R.string.unexpected_error));
+        throw new SecretSitesClientException(SecretSitesResources.unexpected_error);
     }
 
     public String getUser(String uri) throws SecretSitesClientException {
@@ -152,16 +154,21 @@ public class SecretSitesClient {
     }
 
     public String getInterestPoints(String searchName) throws SecretSitesClientException {
-        WebTarget target = client.target(getLink(this.root.getLinks(), "current-points").getUri().toString());
-        Response response;
-        if(this.authToken != null)
-            response = target.request().header("X-Auth-Token", this.authToken.getToken()).get();
-        else
-            response = target.request().get();
-        if (response.getStatus() == Response.Status.OK.getStatusCode())
-            return response.readEntity(String.class);
+        if(this.root != null) {
+            WebTarget target = client.target(getLink(this.root.getLinks(), "current-points").getUri().toString());
+            Response response;
+            if (this.authToken != null)
+                response = target.request().header("X-Auth-Token", this.authToken.getToken()).get();
+            else
+                response = target.request().get();
+            if (response.getStatus() == Response.Status.OK.getStatusCode())
+                return response.readEntity(String.class);
+            else {
+                throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
+            }
+        }
         else {
-            throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
+            throw new SecretSitesClientException(SecretSitesResources.noRoot);
         }
     }
 
@@ -179,8 +186,59 @@ public class SecretSitesClient {
         }
     }
 
+    public String createComment(String url, String pointid, String text) throws SecretSitesClientException {
+        WebTarget target = client.target(url);
+        Form form = new Form();
+        form.param("pointid", pointid);
+        form.param("text", text);
+        Response response = target.request().header("X-Auth-Token", authToken.getToken())
+                .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
+        if (response.getStatus() == Response.Status.CREATED.getStatusCode()) {
+            return response.readEntity(String.class);
+        }
+        else if(response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
+        }
+        throw new SecretSitesClientException(SecretSitesResources.unexpected_error);
+    }
+
+    public String editComment(String url, Comment comment) throws SecretSitesClientException {
+        WebTarget target = client.target(url);
+        Response response = target.request().header("X-Auth-Token", authToken.getToken())
+                .header("Content-Type", "application/vnd.dsa.secretsites.comment+json")
+                .put(Entity.json(comment));
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            return response.readEntity(String.class);
+        }
+        else if(response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
+        }
+        else if(response.getStatus() == Response.Status.NOT_FOUND.getStatusCode()) {
+            throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
+        }
+        else if(response.getStatus() == Response.Status.FORBIDDEN.getStatusCode()) {
+            throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
+        }
+        throw new SecretSitesClientException(SecretSitesResources.unexpected_error);
+    }
+
+    public String deleteComment(String url) throws SecretSitesClientException {
+        WebTarget target = client.target(url);
+        Response response = target.request().header("X-Auth-Token", authToken.getToken()).delete();
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            return "OK";
+        }
+        else if(response.getStatus() == Response.Status.NOT_FOUND.getStatusCode()) {
+            throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
+        }
+        else if(response.getStatus() == Response.Status.FORBIDDEN.getStatusCode()) {
+            throw new Gson().fromJson(response.readEntity(String.class), SecretSitesClientException.class);
+        }
+        throw new SecretSitesClientException(SecretSitesResources.unexpected_error);
+    }
+
     public String getImage(String uri) throws SecretSitesClientException {
-        WebTarget target = client.target("http://192.168.1.133:8080/secretsites/photos/byUrl/wjfhi45");
+        WebTarget target = client.target(uri);
         Response response = target.request().get();
         if (response.getStatus() == Response.Status.OK.getStatusCode())
             return response.readEntity(String.class);

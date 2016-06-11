@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/pointNameAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="London"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp" />
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="7dp"
+        android:src="@mipmap/add_comment_icon"
+        android:tint="?attr/colorPrimary" />
+
+    <EditText
+        android:id="@+id/commentTextAdd"
+        android:inputType="textMultiLine"
+        android:layout_width="800dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/pointNameAdd"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="10dp"
+        android:hint="Write your comment.." />
+
+</RelativeLayout>

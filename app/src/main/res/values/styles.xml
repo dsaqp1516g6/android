@@ -14,4 +14,12 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#4b0082</item>
+        <item name="colorControlActivated">#ffc0cb</item>
+        <item name="android:scaleX">0.7</item>
+        <item name="android:scaleY">0.7</item>
+    </style>
+
+
 </resources>
